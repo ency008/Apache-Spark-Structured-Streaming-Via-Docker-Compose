@@ -20,10 +20,10 @@ spark = SparkSession \
     .config("spark.cassandra.connection.port","9042")\
     .config("spark.cassandra.auth.username","cassandra")\
     .config("spark.cassandra.auth.password","cassandra")\
-    .config("spark.driver.host", "localhost")\
+    .config("spark.driver.host", "172.18.0.2")\
     .getOrCreate()
 
-spark.sparkContext.setLogLevel("ERROR")
+# spark.sparkContext.setLogLevel("ERROR")
 
 
 df = spark \
