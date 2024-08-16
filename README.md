@@ -1,105 +1,4 @@
-# Apache-Spark-Structured-Streaming-Via-Docker-Compose
 
-The purpose of this project is to build a structured streaming pipeline through docker containers. The process consists of the given steps:
-  
-0. Installation Process
-1. Prepare a robotic simulation environment to generate data to feed into the Kafka. 
-2. Prepare docker-compose file
-3. Running docker-compose file
-4. Prepare Apache Spark structured streaming
-5. Demonstration & Results
-
-<p align="center" width="100%">
-    <img src="https://github.com/zekeriyyaa/Apache-Spark-Structured-Streaming-Via-Docker-Compose/blob/main/img/architecture.PNG"> 
-</p>
-
-### 0. Installation Processes
-You are able to install all required components to realize this project using the given steps.
-
-#### Installation of ROS
-We won't address the whole installation process of ROS but you can access all required info from [ROS Noetic & Ubuntu 20.04 Installation](http://wiki.ros.org/noetic/Installation/Ubuntu).
-
-#### Installation of Docker on Ubuntu
-You can utilize this [URL](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
-
-#### Installation of Kafka-Python Library used for publishing data received from ROS to Kafka
->:exclamation: If you haven't installed [kafka-python](https://kafka-python.readthedocs.io/en/master/), use the given command and then run given files.
-```
-pip install kafka-python
-```
-
-### 1. Prepare a robotic simulation environment
-[ROS (Robot Operating System)](http://wiki.ros.org/) allows us to design a robotic environment. In this project, we will use ROS as a data provider. "odom" is a type of message that represents the position of a vehicle. We utilize the given code that generates arbitrary "odom" data and publishes them. 
-```python3
-#!/usr/bin/env python3
-import math
-from math import sin, cos, pi
-
-import rospy
-import tf
-from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
-
-rospy.init_node('odometry_publisher')
-
-odom_pub = rospy.Publisher("odom", Odometry, queue_size=50)
-odom_broadcaster = tf.TransformBroadcaster()
-
-x = 0.0
-y = 0.0
-th = 0.0
-
-vx = 0.1
-vy = -0.1
-vth = 0.1
-
-current_time = rospy.Time.now()
-last_time = rospy.Time.now()
-
-r = rospy.Rate(1.0)
-while not rospy.is_shutdown():
-    current_time = rospy.Time.now()
-
-    # compute odometry in a typical way given the velocities of the robot
-    dt = (current_time - last_time).to_sec()
-    delta_x = (vx * cos(th) - vy * sin(th)) * dt
-    delta_y = (vx * sin(th) + vy * cos(th)) * dt
-    delta_th = vth * dt
-
-    x += delta_x
-    y += delta_y
-    th += delta_th
-
-    # since all odometry is 6DOF we'll need a quaternion created from yaw
-    odom_quat = tf.transformations.quaternion_from_euler(0, 0, th)
-
-    # first, we'll publish the transform over tf
-    odom_broadcaster.sendTransform(
-        (x, y, 0.),
-        odom_quat,
-        current_time,
-        "base_link",
-        "odom"
-    )
-
-    # next, we'll publish the odometry message over ROS
-    odom = Odometry()
-    odom.header.stamp = current_time
-    odom.header.frame_id = "odom"
-
-    # set the position
-    odom.pose.pose = Pose(Point(x, y, 0.), Quaternion(*odom_quat))
-
-    # set the velocity
-    odom.child_frame_id = "base_link"
-    odom.twist.twist = Twist(Vector3(vx, vy, 0), Vector3(0, 0, vth))
-
-    # publish the message
-    odom_pub.publish(odom)
-
-    last_time = current_time
-    r.sleep()
-```
 
 #### Run the given code and analysis the data we will use
 This script publishes odometry data with ROS "odom" topic. So, we can see the published data with the given command:
@@ -123,6 +22,18 @@ In this use case, we will just interest the given part of the data:
       w: 0.9999911861487526
 ```
 
+### Run THIS INSTED ABOVE 
+This script create random odometry data using random:
+```
+# run the script environment
+python3 random_kafka.py
+
+```
+
+
+
+
+  
 ### 2. Prepare Docker-Compose File
 First of all, we generated a network called datapipeline for the architecture. The architecture consists of 4 services and each has a static IP address and uses the default port as the given below:
 - Spark: 172.18.0.2
@@ -460,8 +371,8 @@ df1.writeStream \
   .start() \
   .awaitTermination()
 ```
-### 5. Demonstration & Results
-If you are sure that all preparations are done, you can start a demo. You have to follow the given steps .
+
+<!-- If you are sure that all preparations are done, you can start a demo. You have to follow the given steps .
 
 #### Start ROS and publish odom data to Kafka.
 - roscore : starts ROS master
@@ -470,10 +381,14 @@ If you are sure that all preparations are done, you can start a demo. You have t
 ```
 # these all are implemented in your local pc
 # open a terminal and start roscore
-roscore
+roscore -->
 
-# open another terminal and run odomPublisher.py
-python3 odomPublisher.py
+### 5. Demonstration & Results
+
+
+
+# open  terminal and run odomPublisher.py
+python3 random_kafka.py
 ```
 <p align="center" width="100%">
     <img src="https://github.com/zekeriyyaa/Apache-Spark-Structured-Streaming-Via-Docker-Compose/blob/main/img/odomPublisher.jpg"> 
