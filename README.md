@@ -2,8 +2,7 @@
 
 #### Run the given code and analysis the data we will use
 This script publishes random odometry data  So, we can see the published data with the given command:
-```
-#This script create random odometry data using random:
+
 ```
 # run the script environment
 python3 random_kafka.py
