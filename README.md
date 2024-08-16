@@ -1,39 +1,15 @@
 
 
 #### Run the given code and analysis the data we will use
-This script publishes odometry data with ROS "odom" topic. So, we can see the published data with the given command:
+This script publishes random odometry data  So, we can see the published data with the given command:
 ```
-# run the script environment
-python3 odomPublisher.py
-
-# check the topic to see data
-rostopic echo /odom
-```
-In this use case, we will just interest the given part of the data:
-```
-    position: 
-      x: -2.000055643960576
-      y: -0.4997879642933192
-      z: -0.0010013932644100873
-    orientation: 
-      x: -1.3486164084605e-05
-      y: 0.0038530870521455017
-      z: 0.0016676819550213058
-      w: 0.9999911861487526
-```
-
-### Run THIS INSTED ABOVE 
-This script create random odometry data using random:
+#This script create random odometry data using random:
 ```
 # run the script environment
 python3 random_kafka.py
 
 ```
-
-
-
-
-  
+ 
 ### 2. Prepare Docker-Compose File
 First of all, we generated a network called datapipeline for the architecture. The architecture consists of 4 services and each has a static IP address and uses the default port as the given below:
 - Spark: 172.18.0.2
@@ -396,7 +372,7 @@ python3 random_kafka.py
 
 ```
 # open another terminal and run ros2Kafka.py
-python3 ros2Kafka.py
+python3 random_kafka.py
 ```
 
 <p align="center" width="100%">
