@@ -362,14 +362,9 @@ roscore -->
 
 
 
-# open  terminal and run odomPublisher.py
+# open  terminal and run random_kafka.py
 python3 random_kafka.py
-```
-<p align="center" width="100%">
-    <img src="https://github.com/zekeriyyaa/Apache-Spark-Structured-Streaming-Via-Docker-Compose/blob/main/img/odomPublisher.jpg"> 
-</p>
 
-```
 # open another terminal and run ros2Kafka.py
 python3 random_kafka.py
 ```
