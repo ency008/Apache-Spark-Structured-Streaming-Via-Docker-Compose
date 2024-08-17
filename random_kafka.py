@@ -34,4 +34,4 @@ while True:
     count += 1
 
     # Wait for 2 seconds before sending the next message
-    time.sleep(5)
+    time.sleep(0.2)

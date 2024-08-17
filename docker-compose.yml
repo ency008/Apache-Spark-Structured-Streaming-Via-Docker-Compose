@@ -24,7 +24,7 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ../streamingProje:/home
+      - ./spark_run:/opt/bitnami/spark/home
       - /opt/spark/conf/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
       - /opt/spark/jars:/opt/bitnami/spark/ivy:z
     networks:

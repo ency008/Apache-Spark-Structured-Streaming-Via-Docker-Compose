@@ -393,7 +393,7 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 streami
 docker exec -it e3080e48085c bash
 
 # go to /home and run given command
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,com.datastax.spark:spark-cassandra-connector_2.12:3.0.0 streamingKafka2Console.py
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,com.datastax.spark:spark-cassandra-connector_2.12:3.0.0 streamingKafka2Cassandra.py
 ```
 After the spark job is started, you can see the schema on screen.
 <p align="center" width="100%">
@@ -411,7 +411,7 @@ After all the process is done, we got the data in our Cassandra table as the giv
 You can query the given command to see your table:
 ```
 # Then write select query to see content of the table
-cqlsh> select * from ros.odometry
+cqlsh> select * from ros.odometry;
 ```
 <p align="center" width="100%">
     <img src="https://github.com/zekeriyyaa/Apache-Spark-Structured-Streaming-Via-Docker-Compose/blob/main/img/cassandra.jpg"> 
