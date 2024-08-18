@@ -10,14 +10,19 @@ producer = KafkaProducer(
     value_serializer=lambda message: json.dumps(message).encode('utf-8')
 )
 
-count = 0
+
+
+
+
+
+
 
 # Generate and send messages in a loop with a 2-second interval
 while True:
     # Generate random values based on the pattern
     messages = {
-        "id": count,
-        "posex": float("{0:.5f}".format(random.uniform(0.9, 1.7))),  # Similar to the range [0.9, 1.7]
+        "id":  int(time.time()),
+        "posex": float("{0:.5f}".format(random.uniform(0.9, 1.7))), 
         "posey": float("{0:.5f}".format(random.uniform(2.2, 2.4))),  # Similar to the range [2.2, 2.4]
         "posez": float("{0:.5f}".format(0.0)),                      # Always 0.0
         "orientx": float("{0:.5f}".format(0.0)),                    # Always 0.0
@@ -31,7 +36,7 @@ while True:
     producer.send("rosmsgs", messages)
 
     # Increment the message id
-    count += 1
+
 
     # Wait for 2 seconds before sending the next message
-    time.sleep(0.2)
+    time.sleep(5)
