@@ -124,9 +124,11 @@ In order to read Kafka stream, we use **readStream()** and specify Kafka configu
 
 
 # open  terminal and run random_kafka.py
+<<<<<<< HEAD
 ```
 python3 random_kafka.py
 ```
+
 #### (Option-1) Start Streaming to Console
 ```
 # Execute spark container with container id given above
